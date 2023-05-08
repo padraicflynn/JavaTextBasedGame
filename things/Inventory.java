@@ -3,10 +3,6 @@ package things;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Player;
-import mansion.Room;
-import things.Thing;
-
 public class Inventory {
     private List<Thing> items; // list of items in the inventory
     

@@ -1,38 +1,49 @@
 package engine;
 
 import java.util.List;
+
 import java.util.Scanner;
-import mansion.Room;
+
+import mansion.*;
 import things.Thing;
-import java.util.stream.*;
+ 
  
 public class Game {
 	 private Player player;
 	  public static void main(String[] args) {
+		  Mansion mansion = new Mansion();
+	        Player player = new Player(mansion);
+	        
 	        Game game = new Game();
+	        game.player = player;
 	        game.startGame();
 	    }
 	
-	
 	  public void startGame() {
 		    Scanner scanner = new Scanner(System.in);
-		     
-		    Parser parser = new Parser();
-		    player = new Player();
+		    try {
+		        Parser parser = new Parser();
+		        Room startingRoom = player.getMansion().getStartingRoom(); // get the starting room from the Mansion object
+		        player.setCurrentRoom(startingRoom);
 
-		    System.out.println("Welcome to the Mansion Adventure Game!");
-		    System.out.println("You have three lives. Good luck!");
+		        System.out.println("Welcome, type 'help' for the controls!");
+		        System.out.println("You are in the " + startingRoom.getName() + ", " + startingRoom.getDescription());
 
-		    while (isRunning()) {
-		        System.out.println();
-		        System.out.print("> ");
-		        String input = scanner.nextLine();
-		        Command command = parser.parse(input); // parse input into a Command object
-		        executeCommand(command); // pass the Command object to executeCommand()
+		        while (isRunning()) {
+		            System.out.println();
+		            System.out.print("> ");
+		            String input = scanner.nextLine();
+		            Command command = parser.parse(input); // parse input into a Command object
+		            executeCommand(command); // pass the Command object to executeCommand()
+		        }
+		        System.out.println("Game over.");
+		    } finally {
+		        scanner.close();
 		    }
-
-		    System.out.println("Game over.");
 		}
+
+
+
 
 
 	
@@ -40,7 +51,24 @@ public class Game {
 	    return player.getLives() > 0 && !player.hasWon();
 	}
 	
+	
+	public void displayHelp() {
+	    System.out.println("List of available commands:");
+	    System.out.println("help - display list of commands");
+	    System.out.println("go <direction> - move player in the specified direction");
+	    System.out.println("take <item> - add item to player's inventory");
+	    System.out.println("use <item> - use item in player's inventory");
+	    System.out.println("inspect <item> - examine an item in the room or player's inventory");
+	    System.out.println("inventory - display contents of player's inventory");
+	    System.out.println("quit - exit the game");
+	}
+
 	public void executeCommand(Command command) {
+	    if (command.getCommandType() == null) {
+	        System.out.println("Invalid command. Type 'help' for a list of commands.");
+	        return;
+	    }
+
 	    switch (command.getCommandType()) {
 	        case HELP:
 	            displayHelp();
@@ -63,35 +91,59 @@ public class Game {
 	        case QUIT:
 	            quitGame();
 	            break;
+	        case SEE:
+                seeExits();
+                break;
 	        default:
 	            System.out.println("Invalid command. Type 'help' for a list of commands.");
 	            break;
 	    }
-	    
-	}
-	public void displayHelp() {
-	    System.out.println("List of available commands:");
-	    System.out.println("help - display list of commands");
-	    System.out.println("go <direction> - move player in the specified direction");
-	    System.out.println("take <item> - add item to player's inventory");
-	    System.out.println("use <item> - use item in player's inventory");
-	    System.out.println("inspect <item> - examine an item in the room or player's inventory");
-	    System.out.println("inventory - display contents of player's inventory");
-	    System.out.println("quit - exit the game");
 	}
 
+
 	public void movePlayer(String direction) {
-	    List<Room.Exit> exits = player.getCurrentRoom().getExits();
-	    for (Room.Exit exit : exits) {
+	    Room currentRoom = player.getCurrentRoom();
+	    if (currentRoom == null) {
+	        System.out.println("Error: current room is null.");
+	        return;
+	    }
+
+	    // Add check for null exits
+	    List<Exit> exits = currentRoom.getExits();
+	    if (exits == null) {
+	        System.out.println("Error: exits is null.");
+	        System.out.println("Current room: " + currentRoom.getName());
+	        System.out.println("Available exits: " + currentRoom.getExits());
+
+	        return;
+	    }
+
+ 
+
+	    for (Exit exit : exits) {
 	        if (exit.getDirection().equalsIgnoreCase(direction)) {
 	            Room targetRoom = exit.getTargetRoom();
-	            player.getCurrentRoom().exit(player, exit);
+	            currentRoom.exit(player, exit);
 	            targetRoom.enter(player);
 	            return;
 	        }
 	    }
 	    System.out.println("There is no exit in that direction.");
 	}
+
+	public String getExits() {
+	    Room currentRoom = player.getCurrentRoom();
+	    List<Exit> exits = currentRoom.getExits();
+	    StringBuilder sb = new StringBuilder();
+	    for (int i = 0; i < exits.size(); i++) {
+	        sb.append(exits.get(i).getDirection());
+	        if (i != exits.size() - 1) {
+	            sb.append(", ");
+	        }
+	    }
+	    return sb.toString();
+	}
+
 
 
 	public void takeItem(String itemName) {
@@ -187,4 +239,27 @@ public class Game {
 	    System.exit(0);
 	}
 
+ 
+
+public void seeExits() {
+    Room currentRoom = player.getCurrentRoom();
+    if (currentRoom == null) {
+        System.out.println("Error: current room is null.");
+        return;
+    }
+
+    List<Exit> exits = currentRoom.getExits();
+    if (exits == null) {
+        System.out.println("Error: exits is null.");
+        System.out.println("Current room: " + currentRoom.getName());
+        System.out.println("Available exits: " + currentRoom.getExits());
+        return;
+    }
+
+    System.out.println("Available exits: " + getExits());
+}
+
+ 
+
+	
 }

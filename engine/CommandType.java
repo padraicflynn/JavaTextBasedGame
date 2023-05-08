@@ -7,7 +7,8 @@ public enum CommandType {
     USE("use"),
     INSPECT("inspect"),
     INVENTORY("inventory"),
-    QUIT("quit");
+    QUIT("quit"),
+	SEE("see");
 
     private final String commandString;
 

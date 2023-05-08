@@ -2,14 +2,24 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import mansion.Mansion;
 import mansion.Room;
 import things.Inventory;
 import things.Thing;
 
 public class Player {
+	private Room currentRoom;
+	 private Mansion mansion;
+
+	 public Player(Mansion mansion) {
+	        this.mansion = mansion;
+	        this.currentRoom = mansion.getStartingRoom();
+	    }
+	 
     private int lives = 3;
     private Inventory inventory = new Inventory();
-    private Room currentRoom;
+    
     private List<Thing> items;
     private String name;
     
@@ -107,5 +117,8 @@ public class Player {
         }
     }
     
+    public Mansion getMansion() {
+        return mansion;
+    }
     
 }
