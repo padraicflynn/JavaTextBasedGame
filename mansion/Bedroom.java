@@ -1,70 +1,82 @@
 package mansion;
 
-import java.util.List;
-
 import engine.Player;
 import things.Thing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bedroom implements Room {
+    private final String name;
+    private final String description;
+    private final List<Thing> things;
+    private final List<Exit> exits;
+    private Player player;
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Bedroom() {
+        this.name = "Bedroom";
+        this.description = "A comfortable bedroom with a large bed and elegant furniture.";
+        this.things = new ArrayList<>();
+        this.exits = new ArrayList<>();
+    }
 
-	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public List<Thing> getThings() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public String getDescription() {
+        return description;
+    }
 
-	@Override
-	public List<Exit> getExits() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Thing> getThings() {
+        return things;
+    }
 
-	@Override
-	public boolean canUseItem(Player player, Thing item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public List<Exit> getExits() {
+        return exits;
+    }
 
-	@Override
-	public void useItem(Player player, Thing item) {
-		// TODO Auto-generated method stub
+    @Override
+    public boolean canUseItem(Player player, Thing item) {
+        // Implement the logic to determine if the item can be used in the bedroom
+        return false;
+    }
 
-	}
+    @Override
+    public void useItem(Player player, Thing item) {
+        // Implement the logic to use the item in the bedroom
+    }
 
-	@Override
-	public void enter(Player player) {
-		// TODO Auto-generated method stub
+    @Override
+    public void enter(Player player) {
+        this.player = player;
+        System.out.println("You have entered the " + name + ".");
+        System.out.println(description);
+    }
 
-	}
+    @Override
+    public Player getPlayer() {
+        return player;
+    }
 
-	@Override
-	public void exit(Player player, Exit exit) {
-		// TODO Auto-generated method stub
+    @Override
+    public void exit(Player player, Exit exit) {
+        Room currentRoom = player.getCurrentRoom();
+        if (currentRoom == this && exits.contains(exit)) {
+            player.setCurrentRoom(exit.getDestination());
+            System.out.println("You have exited the " + name + ".");
+          
+        } else {
+            System.out.println("You cannot go that way.");
+        }
+    }
 
-	}
-
-	@Override
-	public void addExit(Exit exit) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Player getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+    @Override
+    public void addExit(Exit exit) {
+        exits.add(exit);
+    }
 }

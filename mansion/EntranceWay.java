@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntranceWay implements Room {
-
-    private String name;
-    private String description;
-    private List<Thing> things;
-    private List<Exit> exits;
+    private final String name;
+    private final String description;
+    private final List<Thing> things;
+    private final List<Exit> exits;
     private Player player;
-    private Mansion mansion;
 
     public EntranceWay() {
         this.name = "Entrance Way";
@@ -22,7 +20,7 @@ public class EntranceWay implements Room {
         this.exits = new ArrayList<>();
         this.player = null;
 
-        // add a key to the table
+        // Add a key to the table
         Thing key = new Thing("key", "A small, rusty key", true, true);
         things.add(key);
     }
@@ -49,12 +47,12 @@ public class EntranceWay implements Room {
 
     @Override
     public boolean canUseItem(Player player, Thing item) {
-        return false; // no items can be used in this room
+        return false; // No items can be used in this room
     }
 
     @Override
     public void useItem(Player player, Thing item) {
-        // do nothing, since no items can be used in this room
+        // Do nothing, since no items can be used in this room
     }
 
     @Override
@@ -71,18 +69,21 @@ public class EntranceWay implements Room {
 
     @Override
     public void exit(Player player, Exit exit) {
-        if (exits.contains(exit)) {
+        Room currentRoom = player.getCurrentRoom();
+        if (currentRoom == this && exits.contains(exit)) {
             player.setCurrentRoom(exit.getDestination());
+            System.out.println("You have exited the " + name + ".");
+          
         } else {
             System.out.println("You cannot go that way.");
         }
     }
 
+
+
+
     @Override
     public void addExit(Exit exit) {
-        getExits().add(exit);
+        exits.add(exit);
     }
-
-
-
 }

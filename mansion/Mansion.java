@@ -20,50 +20,55 @@ public class Mansion {
         Room library = new Library();
         Room billiardRoom = new BilliardRoom();
         Room cellar = new Cellar();
-        Room secretPassage1 = new SecretPassage();
-        Room secretPassage2 = new SecretPassage();
+        Room secondFloorHall = new SecondFloorHall();
+        Room masterBedroom = new MasterBedroom();
+        Room masterBathroom = new MasterBathroom();
+        Room firstFloorBathroom = new Bathroom();
 
         // add exits to each room
         entranceWay.addExit(new Exit("north", livingRoom));
         entranceWay.addExit(new Exit("east", diningRoom));
-        entranceWay.addExit(new Exit("south", conservatory));
+ 
+        entranceWay.addExit(new Exit("west", conservatory));
+        entranceWay.addExit(new Exit("up", secondFloorHall));
 
         livingRoom.addExit(new Exit("south", entranceWay));
         livingRoom.addExit(new Exit("east", diningRoom));
-        livingRoom.addExit(new Exit("west", kitchen));
-        livingRoom.addExit(new Exit("up", study));
-
-        diningRoom.addExit(new Exit("west", livingRoom));
-        diningRoom.addExit(new Exit("north", entranceWay));
-        diningRoom.addExit(new Exit("east", billiardRoom));
-
+        livingRoom.addExit(new Exit("west", billiardRoom));
+     
+        diningRoom.addExit(new Exit("west", entranceWay));
+        diningRoom.addExit(new Exit("north", kitchen));
+      
         kitchen.addExit(new Exit("east", livingRoom));
-        kitchen.addExit(new Exit("north", study));
         kitchen.addExit(new Exit("down", cellar));
-
-        study.addExit(new Exit("down", livingRoom));
-        study.addExit(new Exit("east", bedroom));
-        study.addExit(new Exit("south", kitchen));
+        kitchen.addExit(new Exit("north", firstFloorBathroom));
+ 
+        study.addExit(new Exit("east", secondFloorHall));
+   
         study.addExit(new Exit("north", library));
 
-        bedroom.addExit(new Exit("west", study));
-        bedroom.addExit(new Exit("north", billiardRoom));
-
-        conservatory.addExit(new Exit("north", entranceWay));
+        bedroom.addExit(new Exit("west", secondFloorHall));
+   
+        conservatory.addExit(new Exit("east", entranceWay));
 
         library.addExit(new Exit("south", study));
-
-        billiardRoom.addExit(new Exit("south", bedroom));
-        billiardRoom.addExit(new Exit("west", diningRoom));
-        billiardRoom.addExit(new Exit("north", secretPassage1));
-
+ 
+        billiardRoom.addExit(new Exit("west", livingRoom));
+    
         cellar.addExit(new Exit("up", kitchen));
-        
-        secretPassage1.addExit(new Exit("south", billiardRoom));
-        secretPassage1.addExit(new Exit("east", secretPassage2));
 
-        secretPassage2.addExit(new Exit("west", secretPassage1));
-        
+        secondFloorHall.addExit(new Exit("south", masterBedroom));
+        secondFloorHall.addExit(new Exit("east", bedroom));
+        secondFloorHall.addExit(new Exit("down", entranceWay));
+        secondFloorHall.addExit(new Exit("west", study));
+
+        masterBedroom.addExit(new Exit("north", secondFloorHall));
+        masterBedroom.addExit(new Exit("south", masterBathroom));
+
+        masterBathroom.addExit(new Exit("north", masterBedroom));
+
+        firstFloorBathroom.addExit(new Exit("south", kitchen));
+
         rooms.put("entranceWay", entranceWay);
         rooms.put("livingRoom", livingRoom);
         rooms.put("diningRoom", diningRoom);
@@ -74,8 +79,9 @@ public class Mansion {
         rooms.put("library", library);
         rooms.put("billiardRoom", billiardRoom);
         rooms.put("cellar", cellar);
-        rooms.put("secretPassage1", secretPassage1);
-        rooms.put("secretPassage2", secretPassage2);
+        rooms.put("secondFloorHall", secondFloorHall);
+        rooms.put("masterBathroom", masterBathroom);
+        rooms.put("firstFloorBathroom", firstFloorBathroom);
     }
 
     public Room getStartingRoom() {
@@ -86,3 +92,5 @@ public class Mansion {
         rooms.put(room.getName().toLowerCase().replace(" ", ""), room);
     }
 }
+        
+        

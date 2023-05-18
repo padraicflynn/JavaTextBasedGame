@@ -6,20 +6,23 @@ import things.Thing;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LivingRoom implements Room {
+public class SecondFloorHall implements Room {
     private final String name;
     private final String description;
     private final List<Thing> things;
     private final List<Exit> exits;
     private Player player;
 
-    public LivingRoom() {
-        this.name = "Living Room";
-        this.description = "A cozy living room with comfortable furniture.";
+    public SecondFloorHall() {
+        this.name = "Second Floor Hall";
+        this.description = "A grand hallway on the second floor with exquisite artwork adorning the walls.";
         this.things = new ArrayList<>();
         this.exits = new ArrayList<>();
-        
-        
+        this.player = null;
+
+        // Add a painting to the hallway
+        Thing painting = new Thing("painting", "A beautiful painting", true, false);
+        things.add(painting);
     }
 
     @Override
@@ -44,13 +47,13 @@ public class LivingRoom implements Room {
 
     @Override
     public boolean canUseItem(Player player, Thing item) {
-        // Implement the logic to determine if the item can be used in the living room
+        // Implement the logic to determine if the item can be used in the second floor hallway
         return false;
     }
 
     @Override
     public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the living room
+        // Implement the logic to use the item in the second floor hallway
     }
 
     @Override
@@ -76,8 +79,6 @@ public class LivingRoom implements Room {
             System.out.println("You cannot go that way.");
         }
     }
-
-
 
     @Override
     public void addExit(Exit exit) {

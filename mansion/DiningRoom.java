@@ -7,22 +7,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiningRoom implements Room {
-
-    private String name;
-    private String description;
-    private List<Thing> things;
-    private List<Exit> exits;
+    private final String name;
+    private final String description;
+    private final List<Thing> things;
+    private final List<Exit> exits;
     private Player player;
 
     public DiningRoom() {
-        name = "Dining Room";
-        description = "A large dining room with an ornate table and chairs.";
-        things = new ArrayList<>();
-        exits = new ArrayList<>();
-        things.add(new Thing("candlestick", "A heavy brass candlestick.", true, true));
-        things.add(new Thing("wine bottle", "An expensive-looking bottle of red wine.", true, true));
-     //   exits.add(new Exit("north", new Kitchen()));
-     //   exits.add(new Exit("west", new LivingRoom()));
+        this.name = "Dining Room";
+        this.description = "A spacious dining room with an elegant dining table and chairs.";
+        this.things = new ArrayList<>();
+        this.exits = new ArrayList<>();
+        this.player = null;
+
+        // Add a candlestick to the table
+        Thing candlestick = new Thing("candlestick", "A shiny silver candlestick", true, true);
+        things.add(candlestick);
     }
 
     @Override
@@ -47,41 +47,41 @@ public class DiningRoom implements Room {
 
     @Override
     public boolean canUseItem(Player player, Thing item) {
+        // Implement the logic to determine if the item can be used in the dining room
         return false;
     }
 
     @Override
     public void useItem(Player player, Thing item) {
-        // Do nothing
+        // Implement the logic to use the item in the dining room
     }
 
     @Override
     public void enter(Player player) {
         this.player = player;
         System.out.println("You have entered the " + name + ".");
+        System.out.println(description);
     }
-
-    @Override
-    public void exit(Player player, Exit exit) {
-        this.player = null;
-        System.out.println("You have left the " + name + ".");
-    }
-    
 
     @Override
     public Player getPlayer() {
         return player;
     }
 
-	@Override
-	public void addExit(Exit exit) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void exit(Player player, Exit exit) {
+        Room currentRoom = player.getCurrentRoom();
+        if (currentRoom == this && exits.contains(exit)) {
+            player.setCurrentRoom(exit.getDestination());
+            System.out.println("You have exited the " + name + ".");
+          
+        } else {
+            System.out.println("You cannot go that way.");
+        }
+    }
 
-	 
-
-	 
-
-	 
+    @Override
+    public void addExit(Exit exit) {
+        exits.add(exit);
+    }
 }

@@ -1,29 +1,23 @@
 package mansion;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import engine.Player;
 import things.Thing;
 
-public class Kitchen implements Room {
+import java.util.ArrayList;
+import java.util.List;
 
+public class Kitchen implements Room {
     private final String name;
     private final String description;
     private final List<Thing> things;
     private final List<Exit> exits;
+    private Player player;
 
     public Kitchen() {
-        name = "Kitchen";
-        description = "A spacious kitchen with gleaming countertops and modern appliances.";
-        things = new ArrayList<>();
-        exits = new ArrayList<>();
-        
-        // Add things to the room
-        things.add(new Thing("knife", "A sharp kitchen knife.", true, true));
-
-        // Add exits
-        exits.add(new Exit("south", new DiningRoom()));
+        this.name = "Kitchen";
+        this.description = "A spacious kitchen with modern appliances.";
+        this.things = new ArrayList<>();
+        this.exits = new ArrayList<>();
     }
 
     @Override
@@ -48,35 +42,43 @@ public class Kitchen implements Room {
 
     @Override
     public boolean canUseItem(Player player, Thing item) {
+        // Implement the logic to determine if the item can be used in the kitchen
         return false;
     }
 
     @Override
     public void useItem(Player player, Thing item) {
-        // Do nothing
+        // Implement the logic to use the item in the kitchen
     }
 
     @Override
     public void enter(Player player) {
-        player.setCurrentRoom(this);
+        this.player = player;
         System.out.println("You have entered the " + name + ".");
         System.out.println(description);
     }
 
     @Override
-    public void exit(Player player, Exit exit) {
-        System.out.println("You have left the " + name + ".");
-        exit.getTargetRoom().enter(player);
+    public Player getPlayer() {
+        return player;
     }
 
     @Override
-    public Player getPlayer() {
-        return null;
+    public void exit(Player player, Exit exit) {
+        Room currentRoom = player.getCurrentRoom();
+        if (currentRoom == this && exits.contains(exit)) {
+            player.setCurrentRoom(exit.getDestination());
+            System.out.println("You have exited the " + name + ".");
+          
+        } else {
+            System.out.println("You cannot go that way.");
+        }
     }
+
+
 
     @Override
     public void addExit(Exit exit) {
         exits.add(exit);
     }
-
 }
