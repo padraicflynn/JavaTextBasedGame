@@ -21,7 +21,7 @@ public class MasterBathroom implements Room {
         this.player = null;
 
         // Add a bathrobe to the bathroom
-        Thing bathrobe = new Thing("bathrobe", "A plush bathrobe", true, true);
+        Thing bathrobe = new Thing("bathrobe", "A plush bathrobe", true, true, false);
         things.add(bathrobe);
     }
 
@@ -35,10 +35,7 @@ public class MasterBathroom implements Room {
         return description;
     }
 
-    @Override
-    public List<Thing> getThings() {
-        return things;
-    }
+     
 
     @Override
     public List<Exit> getExits() {
@@ -51,10 +48,7 @@ public class MasterBathroom implements Room {
         return false;
     }
 
-    @Override
-    public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the master bathroom
-    }
+    
 
     @Override
     public void enter(Player player) {
@@ -84,4 +78,16 @@ public class MasterBathroom implements Room {
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	@Override
+	public List<Thing> getVisibleThings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void useItem(Player player, String itemName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

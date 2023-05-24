@@ -6,16 +6,16 @@ import things.Thing;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Study implements Room {
+public class GuestRoom implements Room {
     private final String name;
     private final String description;
     private final List<Thing> things;
     private final List<Exit> exits;
     private Player player;
 
-    public Study() {
-        this.name = "Study";
-        this.description = "A quiet study room with bookshelves and a large desk.";
+    public GuestRoom() {
+        this.name = "Bedroom";
+        this.description = "A comfortable bedroom with a large bed and elegant furniture.";
         this.things = new ArrayList<>();
         this.exits = new ArrayList<>();
     }
@@ -30,7 +30,7 @@ public class Study implements Room {
         return description;
     }
 
-     
+   
 
     @Override
     public List<Exit> getExits() {
@@ -39,11 +39,11 @@ public class Study implements Room {
 
     @Override
     public boolean canUseItem(Player player, Thing item) {
-        // Implement the logic to determine if the item can be used in the study
+        // Implement the logic to determine if the item can be used in the bedroom
         return false;
     }
 
-    
+   
 
     @Override
     public void enter(Player player) {

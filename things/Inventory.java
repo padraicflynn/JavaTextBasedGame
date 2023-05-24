@@ -1,6 +1,7 @@
 package things;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 public class Inventory {
@@ -31,24 +32,30 @@ public class Inventory {
         return false;
     }
     
-    // get a list of all items in the inventory
-    public List<Thing> getContents() {
-        return items;
+    // get a list of all visible items in the inventory
+    public List<Thing> getVisibleContents() {
+        List<Thing> visibleItems = new ArrayList<>();
+        for (Thing item : items) {
+            if (!item.isInvisible()) {
+                visibleItems.add(item);
+            }
+        }
+        return visibleItems;
     }
     
-    // get an item with a specific name from the inventory
-    public Thing get(String itemName) {
+    // get a visible item with a specific name from the inventory
+    public Thing getVisible(String itemName) {
         for (Thing item : items) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            if (item.getName().equalsIgnoreCase(itemName) && !item.isInvisible()) {
                 return item;
             }
         }
         return null;
     }
     
-    // display all items in the inventory
-    public void displayInventory() {
-        List<Thing> contents = getContents();
+    // display all visible items in the inventory
+    public void displayVisibleInventory() {
+        List<Thing> contents = getVisibleContents();
         if (contents.isEmpty()) {
             System.out.println("You are not carrying anything.");
         } else {

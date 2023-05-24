@@ -1,7 +1,7 @@
 package mansion;
 
 import engine.Player;
-import things.Thing;
+import things.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,18 @@ public class Kitchen implements Room {
     private final List<Thing> things;
     private final List<Exit> exits;
     private Player player;
-
+    
+    
+ 
+    
+   
     public Kitchen() {
         this.name = "Kitchen";
         this.description = "A spacious kitchen with modern appliances.";
         this.things = new ArrayList<>();
         this.exits = new ArrayList<>();
+        
+   
     }
 
     @Override
@@ -30,10 +36,7 @@ public class Kitchen implements Room {
         return description;
     }
 
-    @Override
-    public List<Thing> getThings() {
-        return things;
-    }
+    
 
     @Override
     public List<Exit> getExits() {
@@ -46,10 +49,7 @@ public class Kitchen implements Room {
         return false;
     }
 
-    @Override
-    public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the kitchen
-    }
+     
 
     @Override
     public void enter(Player player) {
@@ -81,4 +81,16 @@ public class Kitchen implements Room {
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	@Override
+	public List<Thing> getVisibleThings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void useItem(Player player, String itemName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

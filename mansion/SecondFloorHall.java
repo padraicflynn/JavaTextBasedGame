@@ -1,6 +1,7 @@
 package mansion;
 
 import engine.Player;
+ 
 import things.Thing;
 
 import java.util.ArrayList;
@@ -18,11 +19,9 @@ public class SecondFloorHall implements Room {
         this.description = "A grand hallway on the second floor with exquisite artwork adorning the walls.";
         this.things = new ArrayList<>();
         this.exits = new ArrayList<>();
-        this.player = null;
+         
 
-        // Add a painting to the hallway
-        Thing painting = new Thing("painting", "A beautiful painting", true, false);
-        things.add(painting);
+        
     }
 
     @Override
@@ -35,10 +34,7 @@ public class SecondFloorHall implements Room {
         return description;
     }
 
-    @Override
-    public List<Thing> getThings() {
-        return things;
-    }
+   
 
     @Override
     public List<Exit> getExits() {
@@ -51,10 +47,9 @@ public class SecondFloorHall implements Room {
         return false;
     }
 
-    @Override
-    public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the second floor hallway
-    }
+    
+
+            
 
     @Override
     public void enter(Player player) {
@@ -84,4 +79,16 @@ public class SecondFloorHall implements Room {
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	@Override
+	public List<Thing> getVisibleThings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void useItem(Player player, String itemName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

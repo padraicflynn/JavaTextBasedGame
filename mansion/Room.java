@@ -1,33 +1,30 @@
 package mansion;
 
 import engine.Player;
-
 import things.Thing;
 
 import java.util.List;
 
 public interface Room {
-	
-	
-	
-	 
     String getName();
- 
+
     String getDescription();
- 
-    List<Thing> getThings();
- 
+
+    List<Thing> getVisibleThings();
+
     List<Exit> getExits();
- 
-    boolean canUseItem(Player player, Thing item);
- 
-    void useItem(Player player, Thing item);
- 
+
+    default boolean canUseItem(Player player, Thing item) {
+        return true; // Allow the usage of any item in any room
+    }
+
+    void useItem(Player player, String itemName);
+
     void enter(Player player);
- 
+
     Player getPlayer();
- 
+
     void exit(Player player, Exit exit);
- 
+
     void addExit(Exit exit);
 }

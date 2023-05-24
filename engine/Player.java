@@ -1,6 +1,5 @@
 package engine;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mansion.Mansion;
@@ -9,29 +8,21 @@ import things.Inventory;
 import things.Thing;
 
 public class Player {
-	private Room currentRoom;
-	 private Mansion mansion;
-
-	 public Player(Mansion mansion) {
-	        this.mansion = mansion;
-	        this.currentRoom = mansion.getStartingRoom();
-	    }
-	 
+    private Room currentRoom;
+    private Mansion mansion;
     private int lives = 3;
     private Inventory inventory = new Inventory();
     
-    private List<Thing> items;
-    private String name;
-    
-    public Player() {
-        this.lives = 3;
-        this.items = new ArrayList<>();
+    public Player(Mansion mansion) {
+        this.mansion = mansion;
+        this.currentRoom = mansion.getStartingRoom();
     }
     
-    public String getName() {
-        return name;
+    public Inventory getInventory() {
+        return inventory;
     }
 
+    
     public Room getCurrentRoom() {
         return currentRoom;
     }
@@ -41,26 +32,24 @@ public class Player {
     }
 
     public void addItem(Thing item) {
-        items.add(item);
+        inventory.add(item);
     }
 
     public void removeItem(Thing item) {
-        items.remove(item);
+        inventory.remove(item);
     }
 
     public boolean hasItem(String itemName) {
-        for (Thing item : items) {
-            if (item.getName().equals(itemName)) {
-                return true;
-            }
-        }
-        return false;
+        return inventory.contains(itemName);
+    }
+
+    public boolean hasItem(Thing item) {
+        return inventory.contains(item.getName());
     }
 
     public List<Thing> getItems() {
-        return items;
+        return inventory.getVisibleContents();
     }
- 
 
     public int getLives() {
         return lives;
@@ -70,30 +59,16 @@ public class Player {
         lives--;
     }
 
-    public boolean hasItem(Thing item) {
-        return inventory.contains(item.getName());
-    }
-
-   
-    
     public boolean hasWon() {
         return currentRoom.getName().equals("exit");
     }
-    
+
     public void displayInventory() {
-        List<Thing> contents = inventory.getContents();
-        if (contents.isEmpty()) {
-            System.out.println("You are not carrying anything.");
-        } else {
-            System.out.println("You are carrying:");
-            for (Thing item : contents) {
-                System.out.println("- " + item.getName());
-            }
-        }
+        inventory.displayVisibleInventory();
     }
-    
+
     public void inspectItem(String itemName) {
-        Thing item = inventory.get(itemName);
+        Thing item = inventory.getVisible(itemName);
         if (item == null) {
             System.out.println("You don't have that item.");
         } else {
@@ -101,24 +76,40 @@ public class Player {
         }
     }
 
-    
     public void useItem(String itemName) {
         Room currentRoom = getCurrentRoom();
-        Thing item = inventory.get(itemName);
-        if (item == null) {
-            System.out.println("You don't have that item.");
-        } else if (!item.isItem()) {
-            System.out.println("You can't use that.");
-        } else if (currentRoom.canUseItem(this, item)) {
-            currentRoom.useItem(this, item);
-            inventory.remove(item);
+        List<Thing> items = getItems();
+        boolean used = false;
+        Thing item = null;
+
+        for (Thing thing : items) {
+            if (thing.getName().equals(itemName)) {
+                item = thing;
+                break;
+            }
+        }
+
+        if (item != null) {
+            if (item.isItem()) {
+                // Check if the item can be used in the current room
+                if (currentRoom.canUseItem(this, item)) {
+                    currentRoom.useItem(this, itemName);
+                    removeItem(item);
+                    System.out.println("You have used the " + item.getName() + ".");
+                    used = true;
+                } else {
+                    System.out.println("You cannot use the " + item.getName() + " in this room.");
+                }
+            } else {
+                System.out.println("You cannot use the " + item.getName() + " as it is not an item.");
+            }
         } else {
-            System.out.println("You can't use that here.");
+            System.out.println("You don't have the " + itemName + " in your inventory.");
         }
     }
-    
+
+
     public Mansion getMansion() {
         return mansion;
     }
-    
 }

@@ -15,14 +15,18 @@ public class EntranceWay implements Room {
 
     public EntranceWay() {
         this.name = "Entrance Way";
-        this.description = "You are standing in the entrance way of the mansion. There is a living room beyond a large arch way to the north, and a dining room to the east.";
+        this.description = "You are standing in the entrance way of the mansion. There is a living room beyond a large archway to the north, and a dining room to the east.";
         this.things = new ArrayList<>();
         this.exits = new ArrayList<>();
         this.player = null;
 
-        // Add a key to the table
-        Thing key = new Thing("key", "A small, rusty key", true, true);
+        // Add a key to the room
+        Thing key = new Thing("key", "A small, rusty key", true, true, false);
         things.add(key);
+
+        // Add the haunted book as a visible item in the room
+        Thing hauntedBook = new Thing("haunted book", "A mysterious book emanating an eerie aura", true, true, false);
+        things.add(hauntedBook);
     }
 
     @Override
@@ -36,8 +40,14 @@ public class EntranceWay implements Room {
     }
 
     @Override
-    public List<Thing> getThings() {
-        return things;
+    public List<Thing> getVisibleThings() {
+        List<Thing> visibleThings = new ArrayList<>();
+        for (Thing thing : things) {
+            if (!thing.isInvisible()) {
+                visibleThings.add(thing);
+            }
+        }
+        return visibleThings;
     }
 
     @Override
@@ -47,12 +57,20 @@ public class EntranceWay implements Room {
 
     @Override
     public boolean canUseItem(Player player, Thing item) {
-        return false; // No items can be used in this room
+        // Add specific conditions for other items if needed
+        return true; // Default behavior for other items
     }
 
     @Override
-    public void useItem(Player player, Thing item) {
-        // Do nothing, since no items can be used in this room
+    public void useItem(Player player, String itemName) {
+        // Define the behavior for the haunted book
+        if (itemName.equals("haunted book")) {
+            System.out.println("You open the haunted book, and a chilling presence surrounds you.");
+            System.out.println("The book drains your life force, and you lose three life.");
+            player.loseLife();
+            player.loseLife();
+            player.loseLife();
+        }
     }
 
     @Override
@@ -71,19 +89,19 @@ public class EntranceWay implements Room {
     public void exit(Player player, Exit exit) {
         Room currentRoom = player.getCurrentRoom();
         if (currentRoom == this && exits.contains(exit)) {
-            player.setCurrentRoom(exit.getDestination());
+            player.setCurrentRoom(exit.getTargetRoom());
             System.out.println("You have exited the " + name + ".");
-          
         } else {
             System.out.println("You cannot go that way.");
         }
     }
 
-
-
-
     @Override
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	 
+
+ 
 }

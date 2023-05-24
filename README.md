@@ -14,3 +14,14 @@ We are able to move through the fully connected mansion! All the rooms connect i
 to explore the mansion! The new "see" command shows all the exits in a room, so you'll never be lost. While it would be fun to start adding flavor text to the rooms, next I think
 I'll start working on getting the item objects working. Being able to "take" items and add them to the player's inventory. Then making sure the inventory screen works. After that
 I think "use" items to interact with things in the room should let me start making some puzzles in the haunted mansion! 
+
+5/23/2023
+We are able to "take" items from rooms now. A "key" was easy, but something with two words like "haunted book" is tricky. These are test items,
+not that you would willingly take a haunted book! We are able to check our inventory and see what we have, both the key and haunted book now.
+I tried to get the haunted book to kill the player on use (for testing!) and it worked! But the way I had everything set up the rooms 
+held each item, but I want to be able to use any item in any room and in an effort to adjust that I broke the use method now.
+It worked for a minute though, so I'm sure we can fix it so the list of items can be populated in the things package/class as a
+place to store all the game items and use them from there.
+I also had the idea of triggering events with an old "RPG maker" trick, adding invisible items to the players inventory
+that the game could see if the player had triggered certain events earlier or not by the presence of these invisible items.
+Time to rework the whole inventory system!

@@ -20,7 +20,7 @@ public class Conservatory implements Room {
         this.exits = new ArrayList<>();
 
         // Add a flower vase to the conservatory
-        Thing flowerVase = new Thing("vase", "An elegant flower vase", true, true);
+        Thing flowerVase = new Thing("vase", "An elegant flower vase", true, true, false);
         things.add(flowerVase);
     }
 
@@ -34,10 +34,7 @@ public class Conservatory implements Room {
         return description;
     }
 
-    @Override
-    public List<Thing> getThings() {
-        return things;
-    }
+    
 
     @Override
     public List<Exit> getExits() {
@@ -50,10 +47,7 @@ public class Conservatory implements Room {
         return false;
     }
 
-    @Override
-    public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the conservatory
-    }
+    
 
     @Override
     public void enter(Player player) {
@@ -83,4 +77,16 @@ public class Conservatory implements Room {
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	@Override
+	public List<Thing> getVisibleThings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void useItem(Player player, String itemName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

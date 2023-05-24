@@ -32,10 +32,7 @@ public class LivingRoom implements Room {
         return description;
     }
 
-    @Override
-    public List<Thing> getThings() {
-        return things;
-    }
+    
 
     @Override
     public List<Exit> getExits() {
@@ -48,10 +45,7 @@ public class LivingRoom implements Room {
         return false;
     }
 
-    @Override
-    public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the living room
-    }
+    
 
     @Override
     public void enter(Player player) {
@@ -83,4 +77,16 @@ public class LivingRoom implements Room {
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	@Override
+	public List<Thing> getVisibleThings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void useItem(Player player, String itemName) {
+		// TODO Auto-generated method stub
+		
+	}
 }

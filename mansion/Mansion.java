@@ -24,11 +24,12 @@ public class Mansion {
         Room masterBedroom = new MasterBedroom();
         Room masterBathroom = new MasterBathroom();
         Room firstFloorBathroom = new Bathroom();
+        Room firstFloorHallway = new FirstFloorHallway();
+        Room guestRoom = new GuestRoom();
 
         // add exits to each room
-        entranceWay.addExit(new Exit("north", livingRoom));
+        entranceWay.addExit(new Exit("north", firstFloorHallway));
         entranceWay.addExit(new Exit("east", diningRoom));
- 
         entranceWay.addExit(new Exit("west", conservatory));
         entranceWay.addExit(new Exit("up", secondFloorHall));
 
@@ -39,12 +40,11 @@ public class Mansion {
         diningRoom.addExit(new Exit("west", entranceWay));
         diningRoom.addExit(new Exit("north", kitchen));
       
-        kitchen.addExit(new Exit("east", livingRoom));
+        kitchen.addExit(new Exit("west", firstFloorHallway));
         kitchen.addExit(new Exit("down", cellar));
-        kitchen.addExit(new Exit("north", firstFloorBathroom));
+        
  
         study.addExit(new Exit("east", secondFloorHall));
-   
         study.addExit(new Exit("north", library));
 
         bedroom.addExit(new Exit("west", secondFloorHall));
@@ -61,14 +61,22 @@ public class Mansion {
         secondFloorHall.addExit(new Exit("east", bedroom));
         secondFloorHall.addExit(new Exit("down", entranceWay));
         secondFloorHall.addExit(new Exit("west", study));
+        secondFloorHall.addExit(new Exit("north", guestRoom));
+        
+        guestRoom.addExit(new Exit ("south", secondFloorHall));
 
         masterBedroom.addExit(new Exit("north", secondFloorHall));
         masterBedroom.addExit(new Exit("south", masterBathroom));
 
         masterBathroom.addExit(new Exit("north", masterBedroom));
 
-        firstFloorBathroom.addExit(new Exit("south", kitchen));
-
+        firstFloorBathroom.addExit(new Exit("south", firstFloorHallway));
+        
+      firstFloorHallway.addExit(new Exit ("south", entranceWay));
+      firstFloorHallway.addExit(new Exit("north", firstFloorBathroom));
+      firstFloorHallway.addExit(new Exit("west", livingRoom));
+      firstFloorHallway.addExit(new Exit("east", kitchen));
+      
         rooms.put("entranceWay", entranceWay);
         rooms.put("livingRoom", livingRoom);
         rooms.put("diningRoom", diningRoom);
@@ -82,6 +90,7 @@ public class Mansion {
         rooms.put("secondFloorHall", secondFloorHall);
         rooms.put("masterBathroom", masterBathroom);
         rooms.put("firstFloorBathroom", firstFloorBathroom);
+        rooms.put("FirstFloorHallway", firstFloorHallway);
     }
 
     public Room getStartingRoom() {

@@ -8,12 +8,18 @@ public class Thing {
     private String description;
     private boolean isItem;
     private boolean isUsable;
+    private boolean isInvisible;
 
-    public Thing(String name, String description, boolean isItem, boolean isUsable) {
+    public Thing(String name, String description, boolean isItem, boolean isUsable, boolean isInvisible) {
         this.name = name;
         this.description = description;
         this.isItem = isItem;
         this.isUsable = isUsable;
+        this.isInvisible = isInvisible;
+    }
+
+    public boolean isInvisible() {
+        return isInvisible;
     }
 
     public String getName() {
@@ -32,36 +38,41 @@ public class Thing {
         return isUsable;
     }
 
-    public void use(Player player, Room currentRoom) {
-        // By default, nothing happens when the player uses the item
-        System.out.println("You can't use the " + name + " here.");
-    }
-
     public boolean canUseItem(Player player, String itemName, Room currentRoom) {
-        // Find the Thing object corresponding to the provided itemName
-        Thing thing = null;
-        for (Thing t : currentRoom.getThings()) {
-            if (t.getName().equals(itemName)) {
-                thing = t;
-                break;
-            }
-        }
+        Thing item = player.getInventory().getVisible(itemName);
 
-        if (thing == null || !thing.isUsable()) {
+        if (item == null || !item.isUsable()) {
             return false;
         }
 
-        // Check if the player has the item in their inventory
-        return player.hasItem(thing);
+        return player.hasItem(itemName) && currentRoom.canUseItem(player, item);
     }
 
-    public void useItem(Player player, String itemName, Room currentRoom) {
-        // Use the item in the room
-        for (Thing thing : currentRoom.getThings()) {
-            if (thing.getName().equals(itemName) && thing.isUsable()) {
-                thing.use(player, currentRoom);
+    
+    public void useItem(Player player, Room currentRoom) {
+        // Use the visible item in the room
+        for (Thing thing : currentRoom.getVisibleThings()) {
+            if (thing.getName().equals(name) && !thing.isInvisible() && thing.isUsable()) {
+                // Special behavior for the haunted book
+                if (name.equals("haunted book")) {
+                    System.out.println("You open the haunted book, and a chilling presence surrounds you.");
+                    System.out.println("The book drains your life force, and you lose one life.");
+                    player.loseLife();
+                    return;
+                }
+
+                // Default behavior for other usable items
+                thing.use(player, currentRoom); // Call the use method on the specific Thing object
                 return;
             }
         }
+        System.out.println("You can't use that here.");
+    }
+
+    // Define the use method
+    public void use(Player player, Room currentRoom) {
+        // Implement the desired behavior when the Thing is used
+        // This method can be overridden in subclasses to provide specific behavior for each Thing
+        System.out.println("You use the " + name + ".");
     }
 }

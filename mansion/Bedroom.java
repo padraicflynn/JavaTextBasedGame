@@ -15,7 +15,7 @@ public class Bedroom implements Room {
 
     public Bedroom() {
         this.name = "Bedroom";
-        this.description = "A comfortable bedroom with a large bed and elegant furniture.";
+        this.description = "A comfortable guest room with a large bed and elegant furniture.";
         this.things = new ArrayList<>();
         this.exits = new ArrayList<>();
     }
@@ -30,10 +30,7 @@ public class Bedroom implements Room {
         return description;
     }
 
-    @Override
-    public List<Thing> getThings() {
-        return things;
-    }
+    
 
     @Override
     public List<Exit> getExits() {
@@ -46,10 +43,7 @@ public class Bedroom implements Room {
         return false;
     }
 
-    @Override
-    public void useItem(Player player, Thing item) {
-        // Implement the logic to use the item in the bedroom
-    }
+    
 
     @Override
     public void enter(Player player) {
@@ -79,4 +73,16 @@ public class Bedroom implements Room {
     public void addExit(Exit exit) {
         exits.add(exit);
     }
+
+	@Override
+	public List<Thing> getVisibleThings() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void useItem(Player player, String itemName) {
+		// TODO Auto-generated method stub
+		
+	}
 }
